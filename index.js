@@ -30,7 +30,10 @@ client.on("connect", function() {
 		console.log('999thPercentile: ', data.toString()); 
 	});
 
-	client.getAttribute("org.apache.cassandra.db:type=StorageService", "LiveNodes", function(data) {
-		console.log('LiveNodes: ', data.toString()); 
+	const StorageServiceNames = ['LiveNodes', 'LoadMap', 'JoiningNodes', 'MovingNodes', 'LeavingNodes', 'Starting', 'Keyspaces'];
+	StorageServiceNames.forEach(function(name) {
+		client.getAttribute("org.apache.cassandra.db:type=StorageService", name, function(data) {
+			console.log(`${name}: `, data.toString()); 
+		});
 	});
 });
